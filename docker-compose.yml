@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  plumb:
+    restart: always
+    image: jadyoung/plumb-rabbit-to-mongo:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RABBIT_URI: "amqp://guest:guest@rabbit:5672/"
+      MONGO_URI: "mongodb://mongo/eiffel"
+    networks:
+      default:
+        aliases:
+          - consume
+    depends_on:
+      - rabbit
+      - mongo
+
+  publish:
+    image: jadyoung/publish-file-to-rabbit
+    environment:
+      AMQP_HOST: "rabbit"
+      QUEUE_NAME: "vici"
+    networks:
+      default:
+        aliases:
+          - publish
+    depends_on:
+      - rabbit
+  
+  rabbit:
+    restart: always
+    image: rabbitmq:3.7.4-management
+    ports:
+      - "15672:15672"
+    networks:
+      default:
+          aliases:
+            - rabbit
+
+  mongo:
+    restart: always
+    image: mongo
+    ports:
+     - "27017:27017"
+    networks:
+      default:
+        aliases:
+          - mongo
+  
