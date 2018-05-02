@@ -38,10 +38,10 @@ func main() {
 			Usage:  "Type of [EXCHANGE]",
 		},
 		cli.StringFlag{
-			Name:   "rabbit-routing-key",
+			Name:   "rabbit-binding-key",
 			Value:  "eiffel.#",
-			EnvVar: "RABBIT_ROUTING_KEY",
-			Usage:  "Routing key to use to bind [QUEUE] to [EXCHANGE]",
+			EnvVar: "RABBIT_BINDING_KEY",
+			Usage:  "Binding key to use to bind [QUEUE] to [EXCHANGE]",
 		},
 		cli.StringFlag{
 			Name:   "rabbit-consumer-tag",
@@ -68,18 +68,16 @@ func main() {
 			c.String("rabbit-uri"),
 			c.String("rabbit-exchange"),
 			c.String("rabbit-exchange-type"),
-			c.String("rabbitBindingKey"))
+			c.String("rabbit-binding-key"))
 
-		log.Print("Connecting to RabbitMQ")
 		err := backoff.Retry(consumer.Connect, backoff.NewExponentialBackOff())
 		if err != nil {
 			panic(err)
 		}
 
-		log.Print("Announcing queue")
 		deliveries, err := consumer.AnnounceQueue(
 			c.String("rabbit-queue"),
-			c.String("rabbitBindingKey"))
+			c.String("rabbit-binding-key"))
 		if err != nil {
 			panic(err)
 		}

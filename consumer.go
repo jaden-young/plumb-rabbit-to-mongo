@@ -98,7 +98,7 @@ func (c *Consumer) Connect() error {
 	if err = c.channel.ExchangeDeclare(
 		c.exchange,     // name of the exchange
 		c.exchangeType, // type
-		false,          // durable
+		true,           // durable
 		false,          // delete when complete
 		false,          // internal
 		false,          // noWait
@@ -116,7 +116,7 @@ func (c *Consumer) AnnounceQueue(queueName, bindingKey string) (<-chan amqp.Deli
 	log.Printf("declared Exchange, declaring Queue %q", queueName)
 	queue, err := c.channel.QueueDeclare(
 		queueName, // name of the queue
-		false,     // durable
+		true,      // durable
 		false,     // delete when usused
 		false,     // exclusive
 		false,     // noWait

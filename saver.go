@@ -27,6 +27,7 @@ func NewSaver(uri, collection string) *Saver {
 
 // Connect establishes a connection to the underlying MongoDB of the saver
 func (s *Saver) Connect() error {
+	log.Printf("Dialing %s", s.uri)
 	sess, err := mgo.Dial(s.uri)
 	if err != nil {
 		return err

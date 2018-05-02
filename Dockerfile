@@ -9,7 +9,7 @@ WORKDIR /root/
 COPY --from=builder /go/src/github.com/jaden-young/plumb-rabbit-to-mongo/app .
 ENV RABBIT_URI "amqps://guest:guest@localhost:5672/"
 ENV RABBIT_QUEUE "vici"
-ENV RABBIT_ROUTING_KEY "eiffel.#"
+ENV RABBIT_BINDING_KEY "eiffel.#"
 ENV RABBIT_EXCHANGE "eiffel"
 ENV RABBIT_EXCHANGE_TYPE "topic"
 ENV RABBIT_CONSUMER_TAG "plumb-rabbit-to-mongo"
